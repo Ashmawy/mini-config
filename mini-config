@@ -1,0 +1,27 @@
+#!/usr/bin/python
+
+import subprocess
+
+
+def update_packages():
+	subprocess.call('sudo apt-get update', shell=True)
+
+def install_packages():
+	return
+
+def uninstall_packages():
+	return
+
+def copy_file_content():
+	return
+
+def set_file_metadata():
+	return
+
+
+def main():
+	update_packages()
+
+
+if __name__ == '__main__':
+	main()
