@@ -12,11 +12,13 @@ PACKAGES_DIR = './packages'
 
 
 def update_packages():
+	# Check for package updates before doing anything 
 	print 'Updating packages..'
 	subprocess.check_output('sudo DEBIAN_FRONTEND=noninteractive apt-get update', shell=True)
 
 
 def install_packages(install_file):
+	# Install packages listed under install.txt
 	print 'Installing packages listed under {}'.format(install_file)
 	if file_is_empty(install_file):
 		print 'No packages found to install.'
@@ -36,6 +38,8 @@ def install_packages(install_file):
 
 def uninstall_packages(uninstall_file):
 	print 'Uninstalling packages listed under {}'.format(uninstall_file)
+
+	#Lets make sure the file isn't empty before wasting time here
 	if file_is_empty(uninstall_file):
 		print 'No packages found to uninstall.'
 		return
@@ -52,10 +56,10 @@ def uninstall_packages(uninstall_file):
 		print '{} removed successfuly'.format(package)
 
 
-
 def copy_file_content(file_name, destination, permissions, group, user):
 	print 'Copying {} to {} with permissions {}'.format(file_name, destination, permissions)
 	try:
+		# copy the file, change its permissions and owners after
 		copyfile(file_name, destination)
 		subprocess.call(['chmod', str(permissions), destination])
 		subprocess.call(['chown', '{}:{}'.format(user,group), destination])
@@ -63,7 +67,6 @@ def copy_file_content(file_name, destination, permissions, group, user):
 		raise
 
 	print '{} was successfully copied to {}'.format(file_name,destination)
-
 
 
 def set_config(config_yaml):
@@ -82,6 +85,7 @@ def set_config(config_yaml):
 		copy_file_content(v['name'], v['destination'], v['permissions'], v['group'], v['user'])
 
 def empty_apache_directory():
+	# In case index.html hasn't been removed or anything funky happens, lets simply clear the whole directory from all files
 	try:
 		subprocess.check_output('rm -rf /var/www/html/*', shell=True)
 	except Exception as e:
@@ -98,7 +102,7 @@ def file_is_empty(file):
 
 
 def main():
-
+	
 	update_packages()
 	uninstall_packages('{}/uninstall.txt'.format(PACKAGES_DIR))
 	install_packages('{}/install.txt'.format(PACKAGES_DIR))
