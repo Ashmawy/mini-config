@@ -1,5 +1,5 @@
 file:
-  name: /files/index.php
+  name: ./files/index.php
   destination: /var/www/html/index.php
   permissions: 644
   group: staff

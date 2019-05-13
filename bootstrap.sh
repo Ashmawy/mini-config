@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
-sudo apt-get install python-pip
-sudo apt-get install needrestart
+export DEBIAN_FRONTEND=noninteractive
+sudo apt-get install -yq python-pip
+sudo apt-get install -yq needrestart
 pip install pyyaml
